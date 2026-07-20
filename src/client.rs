@@ -17,13 +17,37 @@ pub async fn run() -> Result<(), Box<dyn Error>> {
         input.clear();
         let _bytes = stdin.read_line(&mut input)?;
         let msg = input.trim_end();
+        let mut outgoing = msg.to_owned();
 
         if msg == "/quit" {
             break;
         }
 
-        println!("Sending: \"{msg}\"");
-        stream.write_all(msg.as_bytes()).await?;
+        if msg.starts_with("/") {
+            match msg.split_once(' ') {
+                Some((cmd, arg)) => {
+                    let cmd = cmd.strip_prefix('/').unwrap_or(cmd);
+                    println!("Command: {cmd}");
+                    println!("Argument: {arg}");
+
+                    match cmd {
+                        "name" => {
+                            println!("Changing name to {arg}");
+                            outgoing = format!("NEW_USERNAME {arg}");
+                        }
+                        _ => {
+                            println!("Unknown command.");
+                        }
+                    }
+                }
+                None => {
+                    println!("{msg}");
+                }
+            }
+        }
+
+        println!("Sending: \"{outgoing}\"");
+        stream.write_all(outgoing.as_bytes()).await?;
 
         let mut buffer = [0; 1024];
         let bytes_read = stream.read(&mut buffer).await?;

@@ -1,14 +1,17 @@
 use std::io::Result;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
-use tokio::net::{TcpListener, TcpStream};
+use tokio::net::TcpListener;
 use tokio::time::{Duration, sleep};
 
-async fn process_socket(mut socket: TcpStream) -> Result<()> {
+use crate::models::client_session::ClientSession;
+
+async fn process_client(mut client: ClientSession) -> Result<()> {
+    let username = &client.username.as_deref().unwrap_or("Undefined");
     loop {
         sleep(Duration::from_secs(1)).await;
 
         let mut buffer = [0; 1024];
-        let bytes_read = socket.read(&mut buffer).await?;
+        let bytes_read = client.socket.read(&mut buffer).await?;
 
         if bytes_read == 0 {
             println!("Client disconnected.");
@@ -16,9 +19,9 @@ async fn process_socket(mut socket: TcpStream) -> Result<()> {
         }
 
         let msg = String::from_utf8_lossy(&buffer[..bytes_read]);
-        println!("Received: \"{msg}\"");
-        println!("Sending: \"{}\"", msg);
-        socket.write_all(msg.as_bytes()).await?;
+        println!("Received from {username}: \"{msg}\"");
+        println!("Sending to {username}: \"{}\"", msg);
+        client.socket.write_all(msg.as_bytes()).await?;
     }
 
     Ok(())
@@ -33,8 +36,12 @@ pub async fn run() -> Result<()> {
 
     loop {
         let (socket, _) = listener.accept().await?;
+        let client = ClientSession {
+            socket,
+            username: Some(String::from("Unknown")),
+        };
         tokio::spawn(async move {
-            if let Err(err) = process_socket(socket).await {
+            if let Err(err) = process_client(client).await {
                 eprintln!("Client error: {err}");
             }
         });
