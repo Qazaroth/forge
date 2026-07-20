@@ -32,7 +32,7 @@ pub async fn run() -> Result<(), Box<dyn Error>> {
 
                     match cmd {
                         "name" => {
-                            println!("Changing name to {arg}");
+                            //println!("Changing name to {arg}");
                             outgoing = format!("NEW_USERNAME {arg}");
                         }
                         _ => {
@@ -44,9 +44,11 @@ pub async fn run() -> Result<(), Box<dyn Error>> {
                     println!("{msg}");
                 }
             }
+        } else {
+            outgoing = format!("MESSAGE {msg}");
         }
 
-        println!("Sending: \"{outgoing}\"");
+        //println!("Sending: \"{outgoing}\"");
         stream.write_all(outgoing.as_bytes()).await?;
 
         let mut buffer = [0; 1024];
@@ -56,7 +58,20 @@ pub async fn run() -> Result<(), Box<dyn Error>> {
             println!("Server closed connection.");
         } else {
             let response = String::from_utf8_lossy(&buffer[..bytes_read]);
-            println!("Received: \"{response}\"");
+            match response.split_once(' ') {
+                Some((protocol, args)) => {
+                    if protocol == "MESSAGE" {
+                        println!("[SERVER] : {args}");
+                    } else if protocol == "NEW_USERNAME" {
+                        println!("Notification: Username successfully changed to {args}");
+                    }
+                    //println!("{protocol} - {args}")
+                }
+                None => {
+                    eprintln!("Server-client connection issue.");
+                }
+            }
+            //println!("Received: \"{response}\"");
         }
     }
 
