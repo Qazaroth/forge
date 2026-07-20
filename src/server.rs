@@ -1,5 +1,5 @@
 use std::io::Result;
-use tokio::io::AsyncWriteExt;
+use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::{TcpListener, TcpStream};
 use tokio::time::{Duration, sleep};
 
@@ -7,15 +7,17 @@ async fn process_socket(mut socket: TcpStream) -> Result<()> {
     loop {
         sleep(Duration::from_secs(1)).await;
 
-        let msg = "Hello from Tokio TCP Server!";
+        let mut buffer = [0; 1024];
+        let bytes_read = socket.read(&mut buffer).await?;
+        let msg = String::from_utf8_lossy(&buffer[..bytes_read]);
+        println!("Received: \"{msg}\"");
         println!("Sending: \"{}\"", msg);
         socket.write_all(msg.as_bytes()).await?;
         //socket.write_all(msg.as_bytes()).await?;
-        break;
     }
 
-    println!("Client disconnected.");
-    Ok(())
+    // println!("Client disconnected.");
+    // Ok(())
 }
 
 pub async fn run() -> Result<()> {

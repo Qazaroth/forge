@@ -9,8 +9,8 @@ Current Version: v0.1.0
 ## Server
 - [x] Start server
 - [x] Accept connections
-- [ ] Graceful shutdown
 - [ ] Multiple clients
+- [ ] Graceful shutdown
 
 ## Client
 - [x] Start client
@@ -20,11 +20,11 @@ Current Version: v0.1.0
 
 ## Communication
 - [x] Server → Client
-- [ ] Client → Server
+- [x] Client → Server
 - [ ] Echo server
 - [ ] Multiple messages
-- [ ] Broadcast messages
 - [ ] Session usernames
+- [ ] Broadcast messages
 
 ---
 
