@@ -36,15 +36,5 @@ pub async fn run() -> Result<(), Box<dyn Error>> {
         }
     }
 
-    // let mut buffer = [0; 1024];
-    // let bytes_read = stream.read(&mut buffer).await?;
-
-    // if bytes_read == 0 {
-    //     println!("Server closed connection.");
-    // } else {
-    //     let response = String::from_utf8_lossy(&buffer[..bytes_read]);
-    //     println!("Received: \"{}\"", response);
-    // }
-
     Ok(())
 }

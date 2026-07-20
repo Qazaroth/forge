@@ -21,7 +21,7 @@ Current Version: v0.1.0
 ## Communication
 - [x] Server → Client
 - [x] Client → Server
-- [ ] Echo server
+- [x] Echo server
 - [ ] Multiple messages
 - [ ] Session usernames
 - [ ] Broadcast messages
