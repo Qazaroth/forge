@@ -1,1 +1,9 @@
 /target
+
+# Editor settings (optional)
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db
