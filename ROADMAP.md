@@ -9,7 +9,7 @@ Current Version: v0.1.0
 ## Server
 - [x] Start server
 - [x] Accept connections
-- [ ] Multiple clients
+- [x] Multiple clients
 - [ ] Graceful shutdown
 
 ## Client
