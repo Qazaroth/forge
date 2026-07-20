@@ -16,7 +16,7 @@ pub async fn run() -> Result<(), Box<dyn Error>> {
     loop {
         input.clear();
         let _bytes = stdin.read_line(&mut input)?;
-        let msg = input.trim();
+        let msg = input.trim_end();
 
         if msg == "/quit" {
             break;

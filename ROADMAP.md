@@ -22,7 +22,7 @@ Current Version: v0.1.0
 - [x] Server → Client
 - [x] Client → Server
 - [x] Echo server
-- [ ] Multiple messages
+- [x] Multiple messages
 - [ ] Session usernames
 - [ ] Broadcast messages
 
