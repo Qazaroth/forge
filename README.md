@@ -1,8 +1,16 @@
 # Forge
 
+[![CI](https://github.com/Qazaroth/forge/actions/workflows/ci.yml/badge.svg)](https://github.com/Qazaroth/forge/actions/workflows/ci.yml)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+[![Rust](https://img.shields.io/badge/Rust-stable-orange?logo=rust)](https://www.rust-lang.org/)
+[![Tokio](https://img.shields.io/badge/Tokio-Async-green)](https://tokio.rs)
+
 > A self-hostable chat platform written in Rust, built from the ground up as a learning project.
 
 Forge is a long-term project focused on learning systems programming, networking, software architecture, and security by building a modern chat platform from scratch.
+
+> [!NOTE]
+> Forge is in the early stages of development. Features, architecture, and protocols are expected to change frequently while the project evolves.
 
 Rather than recreating Discord feature-for-feature, Forge aims to explore how real-time communication software is designed and implemented, starting from a simple TCP server and gradually evolving into a fully featured platform.
 
@@ -108,27 +116,99 @@ Each feature is built on top of the previous one, allowing the project to serve 
 
 The emphasis is on understanding how each component works rather than reaching feature parity as quickly as possible.
 
+## Requirements
+
+Before building Forge, ensure you have the following installed:
+
+* Rust (latest stable toolchain)
+* Cargo (included with Rust)
+* Git
+
+Verify your installation:
+
+```bash
+rustc --version
+cargo --version
+```
+
+---
+
 ## Building
 
 Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Qazaroth/forge.git
 cd forge
 ```
 
-Run the server:
+Build the project:
+
+```bash
+cargo build
+```
+
+Or build an optimized release version:
+
+```bash
+cargo build --release
+```
+
+---
+
+## Running
+
+Start the server:
 
 ```bash
 cargo run -- server
 ```
 
-Run the client:
+Start a client (in another terminal):
 
 ```bash
 cargo run -- client
 ```
 
+---
+
+## Project Structure
+
+```text
+forge/
+├── src/
+│   ├── main.rs
+│   ├── server.rs
+│   ├── client.rs
+│   ├── protocol.rs
+│   └── network.rs
+├── .github/
+│   └── workflows/
+├── README.md
+├── ROADMAP.md
+├── LICENSE
+└── Cargo.toml
+```
+
+---
+
+## Roadmap
+
+Forge is developed incrementally.
+
+A detailed roadmap can be found in [ROADMAP.md](ROADMAP.md), which tracks completed milestones, planned features, and future ideas.
+
+---
+
+## Contributing
+
+Forge is currently a personal learning project, so contributions are not being accepted at this time.
+
+Bug reports, suggestions, and discussions are always welcome through GitHub Issues.
+
+
 ## License
 
-MIT License.
+Forge is licensed under the GNU General Public License v3.0 (GPL-3.0).
+
+See the [LICENSE](LICENSE) file for details.
