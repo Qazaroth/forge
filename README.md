@@ -172,26 +172,6 @@ cargo run -- client
 
 ---
 
-## Project Structure
-
-```text
-forge/
-├── src/
-│   ├── main.rs
-│   ├── server.rs
-│   ├── client.rs
-│   ├── protocol.rs
-│   └── network.rs
-├── .github/
-│   └── workflows/
-├── README.md
-├── ROADMAP.md
-├── LICENSE
-└── Cargo.toml
-```
-
----
-
 ## Roadmap
 
 Forge is developed incrementally.

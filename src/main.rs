@@ -1,7 +1,5 @@
 mod client;
 mod models;
-mod network;
-mod protocol;
 mod server;
 
 #[tokio::main]
