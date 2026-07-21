@@ -1,4 +1,5 @@
 mod client;
+mod client_manager;
 mod models;
 mod server;
 

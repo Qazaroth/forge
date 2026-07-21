@@ -1,5 +1,6 @@
 use std::error::Error;
-use tokio::io::{AsyncReadExt, AsyncWriteExt};
+use std::io::Write;
+use tokio::io::{self, AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpStream;
 
 pub struct Client {
@@ -13,6 +14,12 @@ pub async fn run() -> Result<(), Box<dyn Error>> {
     let mut input = String::new();
 
     println!("Client starting...");
+
+    print!("Enter username: ");
+    std::io::stdout().flush()?;
+    let _bytes = stdin.read_line(&mut input)?;
+    let username = input.trim_end();
+
     println!("Connecting to {}...", target_addr);
 
     let stream = TcpStream::connect(target_addr).await?;
@@ -20,8 +27,10 @@ pub async fn run() -> Result<(), Box<dyn Error>> {
 
     let mut client = Client {
         stream,
-        username: Some(String::from("Undefined")),
+        username: Some(String::from(username)),
     };
+    let username_changed = format!("NEW_USERNAME {username}");
+    client.stream.write_all(username_changed.as_bytes()).await?;
 
     loop {
         input.clear();
@@ -42,7 +51,6 @@ pub async fn run() -> Result<(), Box<dyn Error>> {
 
                     match cmd {
                         "name" => {
-                            //println!("Changing name to {arg}");
                             outgoing = format!("NEW_USERNAME {arg}");
                         }
                         _ => {
