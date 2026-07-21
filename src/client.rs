@@ -2,6 +2,11 @@ use std::error::Error;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpStream;
 
+pub struct Client {
+    pub stream: TcpStream,
+    pub username: Option<String>,
+}
+
 pub async fn run() -> Result<(), Box<dyn Error>> {
     let target_addr = "127.0.0.1:8080";
     let stdin = std::io::stdin();
@@ -10,8 +15,13 @@ pub async fn run() -> Result<(), Box<dyn Error>> {
     println!("Client starting...");
     println!("Connecting to {}...", target_addr);
 
-    let mut stream = TcpStream::connect(target_addr).await?;
+    let stream = TcpStream::connect(target_addr).await?;
     println!("Connected successfully!");
+
+    let mut client = Client {
+        stream,
+        username: Some(String::from("Undefined")),
+    };
 
     loop {
         input.clear();
@@ -49,10 +59,10 @@ pub async fn run() -> Result<(), Box<dyn Error>> {
         }
 
         //println!("Sending: \"{outgoing}\"");
-        stream.write_all(outgoing.as_bytes()).await?;
+        client.stream.write_all(outgoing.as_bytes()).await?;
 
         let mut buffer = [0; 1024];
-        let bytes_read = stream.read(&mut buffer).await?;
+        let bytes_read = client.stream.read(&mut buffer).await?;
 
         if bytes_read == 0 {
             println!("Server closed connection.");
@@ -64,6 +74,7 @@ pub async fn run() -> Result<(), Box<dyn Error>> {
                         println!("[SERVER] : {args}");
                     } else if protocol == "NEW_USERNAME" {
                         println!("Notification: Username successfully changed to {args}");
+                        client.username = Some(String::from(args));
                     }
                     //println!("{protocol} - {args}")
                 }
@@ -71,7 +82,6 @@ pub async fn run() -> Result<(), Box<dyn Error>> {
                     eprintln!("Server-client connection issue.");
                 }
             }
-            //println!("Received: \"{response}\"");
         }
     }
 

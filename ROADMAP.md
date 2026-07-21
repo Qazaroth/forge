@@ -23,11 +23,10 @@ Current Version: v0.1.0
 - [x] Client → Server
 - [x] Echo server
 - [x] Multiple messages
-- [ ] Simple commands
+- [x] Simple commands
     /quit
-    /help
     /name Alice
-- [ ] Session usernames
+- [x] Session usernames
 - [ ] Broadcast messages
 
 ---
