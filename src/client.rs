@@ -1,6 +1,6 @@
 use std::error::Error;
 use std::io::Write;
-use tokio::io::{self, AsyncReadExt, AsyncWriteExt};
+use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpStream;
 
 pub struct Client {
