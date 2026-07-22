@@ -1,6 +1,6 @@
 # Forge
 
-[![CI](https://github.com/Qazaroth/forge/actions/workflows/ci.yml/badge.svg)](https://github.com/Qazaroth/forge/actions/workflows/ci.yml)
+<!--[![CI](https://github.com/Qazaroth/forge/actions/workflows/ci.yml/badge.svg)](https://github.com/Qazaroth/forge/actions/workflows/ci.yml)-->
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Rust](https://img.shields.io/badge/Rust-stable-orange?logo=rust)](https://www.rust-lang.org/)
 [![Tokio](https://img.shields.io/badge/Tokio-Async-green)](https://tokio.rs)
