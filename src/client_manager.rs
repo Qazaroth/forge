@@ -1,7 +1,9 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, str::FromStr};
+use tokio::sync::mpsc;
 
 pub struct ClientInfo {
     pub username: Option<String>,
+    pub sender: mpsc::Sender<String>,
 }
 
 pub struct ClientManager {
@@ -17,9 +19,9 @@ impl ClientManager {
         }
     }
 
-    pub fn generate_id(&self) -> u64 {
-        let id = self.next_client_id + 1;
-        return id;
+    pub fn generate_id(&mut self) -> u64 {
+        self.next_client_id += 1;
+        return self.next_client_id;
     }
 
     pub fn add_client(&mut self, id: u64, client: ClientInfo) {
@@ -38,8 +40,16 @@ impl ClientManager {
         return self.clients.get_mut(&id);
     }
 
-    pub fn broadcast(&self, sender_id: u64, message: &str) {
-        todo!()
+    pub fn get_receivers(&self, sender_id: u64) -> Vec<mpsc::Sender<String>> {
+        let mut receivers = Vec::new();
+
+        for (id, client) in &self.clients {
+            if *id != sender_id {
+                receivers.push(client.sender.clone());
+            }
+        }
+
+        return receivers;
     }
 
     pub fn len(&self) -> usize {
